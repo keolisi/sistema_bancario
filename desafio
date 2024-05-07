@@ -1,0 +1,53 @@
+saldo = 0.00  # Saldo inicial da conta
+saques_hoje = 0  # Contador de saques no dia
+limite_saque_diario = 3  # Limite de saques diários
+limite_valor_saque = 500.00  # Limite de valor por saque
+
+# Função para depositar
+def depositar(valor):
+  global saldo
+  if valor > 0:
+    saldo += valor
+    print(f"Depósito de R$ {valor:.2f} realizado com sucesso!")
+  else:
+    print("Valor inválido para depósito.")
+
+# Função para sacar
+def sacar(valor):
+  global saldo, saques_hoje
+  if saques_hoje < limite_saque_diario and valor <= limite_valor_saque and valor <= saldo:
+    saldo -= valor
+    saques_hoje += 1
+    print(f"Saque de R$ {valor:.2f} realizado com sucesso!")
+  elif saques_hoje >= limite_saque_diario:
+    print(f"Limite de saques diários atingido ({limite_saque_diario}).")
+  elif valor > limite_valor_saque:
+    print(f"Limite de valor por saque excedido (R$ {limite_valor_saque:.2f}).")
+  else:
+    print(f"Saldo insuficiente para saque (R$ {saldo:.2f}).")
+
+# Função para exibir extrato
+def extrato():
+  global saldo, saques_hoje
+  print("---------- Extrato ----------")
+  print(f"Saldo: R$ {saldo:.2f}")
+  print(f"Saques hoje: {saques_hoje}")
+  print("---------- ----------")
+
+# Loop principal do programa
+while True:
+  opcao = input("Digite sua opção ([d] Depositar, [s] Sacar, [e] Extrato, [q] Sair): ").lower()
+
+  if opcao == "d":
+    valor = float(input("Digite o valor do depósito: R$ "))
+    depositar(valor)
+  elif opcao == "s":
+    valor = float(input("Digite o valor do saque: R$ "))
+    sacar(valor)
+  elif opcao == "e":
+    extrato()
+  elif opcao == "q":
+    print("Saindo do sistema...")
+    break
+  else:
+    print("Opção inválida. Tente novamente.")  
